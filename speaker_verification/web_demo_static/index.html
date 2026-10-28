@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>板载麦克风 · 声纹相似度</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <main>
+    <header><span class="eyebrow">板端本地测试 · 单用户</span><h1>声纹相似度</h1>
+      <p>录音来自<strong>板载麦克风</strong>，不使用浏览器麦克风；网页不会上传音频。</p></header>
+    <aside role="note"><strong>实验原型，不用于身份认证或自动放行。</strong>请在安静环境中只录自己的声音。余弦相似度未经阈值标定，别人也可能得到高分。服务没有登录认证，仅供可信的 USB 网络使用，不要暴露到公网。</aside>
+    <section class="panel" aria-label="会话操作">
+      <div class="status"><span id="indicator" class="indicator"></span><span id="state">正在连接…</span><span id="countdown"></span></div>
+      <p id="source" class="helper"></p>
+      <p class="helper">对照测试时，同一时间只在一个页面录音。原始 ALSA 模式会绕过 audio_service 的 AEC、降噪、AGC 等软件处理；不是只关闭 AEC。</p>
+      <div class="buttons"><button id="enroll" type="button" disabled>1 · 录制参考声音</button><button id="start" type="button">2 · 开始持续比较</button><button id="stop" type="button">停止采集</button><button id="reset" type="button">清除参考声音</button></div>
+      <p id="enroll-description" class="helper">正在读取本服务的参考录制模式…</p>
+      <p class="helper">录制完成后麦克风自动关闭，点击“开始持续比较”才会再次开启。清除参考仅清除内存中的声纹和历史；如果启用了私有目录保存，已保存的诊断录音不会被删除。</p>
+      <p id="reference-info" class="helper"></p>
+      <button id="reference-play" type="button" disabled>试听已保存的参考录音</button>
+      <audio id="reference-player" controls preload="none"></audio>
+      <p id="error" class="error" role="alert"></p>
+    </section>
+    <section class="panel" aria-label="实时相似度">
+      <p class="eyebrow">最新余弦相似度 · −1 至 +1</p>
+      <div id="score" class="score" aria-live="polite">—</div>
+      <p id="detail" class="helper">录制参考并开始采集后显示分数；静音时不显示分数。</p>
+      <svg id="plot" viewBox="0 0 600 140" preserveAspectRatio="none" role="img" aria-label="相似度历史曲线；安静窗口会留空"><line x1="0" y1="70" x2="600" y2="70" class="axis"></line><path id="trace" d="" /></svg>
+      <div class="scale"><span>+1</span><span>0</span><span>−1</span></div>
+      <p class="helper">音频 RMS：<span id="rms">—</span> · 静音过滤值：<span id="cutoff">—</span>。仍需按实际环境标定声纹阈值。</p>
+    </section>
+  </main>
+</body>
+</html>

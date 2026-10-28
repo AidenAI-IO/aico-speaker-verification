@@ -1,0 +1,23 @@
+# Example installation: repository at /opt/aico-speaker-verification.
+# Edit User, bind address and paths to match your board before installation.
+[Unit]
+Description=ERes2Net speaker verification diagnostic (USB only)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=aico
+Group=aico
+SupplementaryGroups=audio video
+WorkingDirectory=/opt/aico-speaker-verification
+ExecStart=/usr/bin/python3 -u -m speaker_verification.web_demo --bind 192.168.42.1 --port 8768 --tools-dir /opt/aico-speaker-verification/build --model-dir /opt/aico-speaker-verification/models/eres2net --reference-dir /home/aico/eres2net-references
+Environment=PYTHONDONTWRITEBYTECODE=1
+UMask=0077
+NoNewPrivileges=true
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=45
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,8 @@
+*.pt binary
+*.onnx binary
+*.rknn binary
+*.f32 binary
+*.wav binary
+# Preserve upstream formatting verbatim; license/source attribution is in vendor/README.md.
+vendor/** -whitespace
+models/eres2net/UPSTREAM_MODEL_CARD.md -whitespace

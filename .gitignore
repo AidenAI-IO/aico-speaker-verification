@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+build/
+artifacts/
+recordings/
+references/
+*.log
+.DS_Store
+._*
+# User-supplied RKNN runtime/headers: do not redistribute without license review.
+third_party/rknn/
+*.so
+*.so.*
